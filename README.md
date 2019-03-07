@@ -1,3 +1,7 @@
+# MyReads Project
+
+This is the my submission for the final assessment project for Udacity's React Fundamentals course. The goal of this project is to be a place where you can save the list of books you are reading, already read or want to read in just one place. Hope you enjoy it. (:
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
