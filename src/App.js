@@ -1,28 +1,32 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import './App.css'
+import { Route } from 'react-router-dom'
+import ListOfBooks from './ListOfBooks'
+import Search from './Search'
 
-class App extends Component {
+class BooksApp extends React.Component {
+  state = {
+    /**
+     * TODO: Instead of using this state variable to keep track of which page
+     * we're on, use the URL in the browser's address bar. This will ensure that
+     * users can use the browser's back and forward buttons to navigate between
+     * pages, as well as provide a good URL they can bookmark and share.
+     */
+    showSearchPage: false
+  }
+
+
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div className="app">
+          <Route path='/search' component={Search} />
+          <Route to exact path='/' render={() => (
+            <ListOfBooks/>
+          )} />
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default BooksApp
