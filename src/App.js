@@ -17,16 +17,25 @@ class BooksApp extends React.Component {
      * users can use the browser's back and forward buttons to navigate between
      * pages, as well as provide a good URL they can bookmark and share.
      */
-    showSearchPage: false
+    books: [],
   }
 
-
+  componentDidMount() {
+    BooksAPI.getAll()
+      .then((books) => {
+        this.updateShelfs(books)
+        this.setState(() => ({
+          books
+        }))
+      })
+  
+  }
 
   render() {
     return (
       <div className="app">
         <Route path='/search' render={() => (
-          <Route to exact path='/' render={() => (
+          <Search books={this.state.books} updateBookShelf={this.updateBookShelf} />
         )} />
         <Route to exact path='/' render={() => (
           <div className="list-books">

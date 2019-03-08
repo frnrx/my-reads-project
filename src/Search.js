@@ -4,18 +4,13 @@ import { Link } from 'react-router-dom'
 class Search extends Component {
 
   state = {
-    books: [],
     query: ''
   }
 
-
-  componentDidMount() {
-    BooksAPI.getAll()
-      .then((books) => {
-        this.setState(() => ({
-          books
-        }))
-      })
+  updateQuery = (query) => {
+    this.setState(() => ({
+      query: query.trim()
+    }))
   }
 
   changeBookShelf = (event, book) => {
@@ -26,7 +21,8 @@ class Search extends Component {
 
   render() {
 
-    const { query, books } = this.state
+    const { query } = this.state
+    const { books } = this.props
 
     const showingBooks = query === ''
       ? books
