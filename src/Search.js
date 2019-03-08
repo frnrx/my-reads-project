@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import * as BooksAPI from './BooksAPI'
 
 class Search extends Component {
 
@@ -19,10 +18,10 @@ class Search extends Component {
       })
   }
 
-  updateQuery = (query) => {
-    this.setState(() => ({
-      query: query.trim()
-    }))
+  changeBookShelf = (event, book) => {
+    let shelf = event.target.value;
+    let title = book.title;
+    this.props.updateBookShelf(title, shelf)
   }
 
   render() {
