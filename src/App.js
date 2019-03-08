@@ -18,6 +18,9 @@ class BooksApp extends React.Component {
      * pages, as well as provide a good URL they can bookmark and share.
      */
     books: [],
+    currentlyReading: [],
+    wantToRead: [],
+    read: []
   }
 
   componentDidMount() {
@@ -30,6 +33,46 @@ class BooksApp extends React.Component {
       })
   
   }
+
+  updateBookShelf = (title, shelf) => {
+    this.state.books.map((book) => {
+      if (book.title === title) {
+        book.shelf = shelf;
+        BooksAPI.update(book, shelf);
+      }
+    })
+    // this.setState((prevState) => {
+    //   books: prevState.books.push(book)
+    // })
+    // console.log(this.state)
+    this.updateShelfs(this.state.books)
+  }
+
+
+
+  updateShelfs = (books) => {
+    let currentlyReadingBooks = books.filter(book => book.shelf === 'currentlyReading')
+    this.setState({
+      currentlyReading: currentlyReadingBooks
+    })
+
+    let wantToReadBooks = books.filter(book => book.shelf === 'wantToRead')
+    this.setState({
+      wantToRead: wantToReadBooks
+    })
+
+    let readBooks = books.filter(book => book.shelf === 'read')
+    this.setState({
+      read: readBooks
+    })
+  }
+
+  // updateBooks = () => {
+  //   for (let index = 0; index < array.length; index++) {
+  //     const element = array[index];
+
+  //   }
+  // }
 
   render() {
     return (
@@ -44,6 +87,9 @@ class BooksApp extends React.Component {
             </div>
             <div className="list-books-content">
               <div>
+                <CurrentlyReading currentlyReading={this.state.currentlyReading} updateBookShelf={this.updateBookShelf}/>
+                <WantToRead wantToRead={this.state.wantToRead} updateBookShelf={this.updateBookShelf}/>
+                <Read read={this.state.read} updateBookShelf={this.updateBookShelf}/>
               </div>
             </div>
             <Link className="open-search" to='/search'>Add a book</Link>
