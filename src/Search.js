@@ -17,9 +17,13 @@ class Search extends Component {
           books
         }))
       })
-    console.log(this.state);
   }
 
+  updateQuery = (query) => {
+    this.setState(() => ({
+      query: query.trim()
+    }))
+  }
 
   render() {
 
@@ -27,9 +31,22 @@ class Search extends Component {
 
     const showingBooks = query === ''
       ? books
-      : books.filter((c) => (
-        c.title.toLowerCase().includes(query.toLowerCase())
-      ))
+      : books.filter((c) => {
+
+        let authorExists = false
+
+        for (let index = 0; index < c.authors.length; index++) {
+          if (c.authors[index].toLowerCase().includes(query.toLowerCase())) {
+            authorExists = true
+          }
+        }
+
+        let titleExist = c.title.toLowerCase().includes(query.toLowerCase())
+
+        return (
+          titleExist || authorExists
+        )
+      })
 
     return (
       <div className="search-books">
@@ -44,14 +61,19 @@ class Search extends Component {
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
                 */}
-            <input type="text" placeholder="Search by title or author" />
+            <input
+              type="text"
+              placeholder="Search by title or author"
+              value={query}
+              onChange={(event) => this.updateQuery(event.target.value)}
+            />
 
           </div>
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            {showingBooks.map((book) => (
-              <li key={book.id}>
+            {showingBooks.map((book, i) => (
+              <li key={i}>
                 <div className="book">
                   <div className="book-top">
                     <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
@@ -59,8 +81,8 @@ class Search extends Component {
                       {book.title}
                     </div>
                     <div className='book-authors'>
-                      {book.authors.map((author) => (
-                        <p>{author}</p>
+                      {book.authors.map((author, i) => (
+                        <p key={i}>{author}</p>
                       ))}
                     </div>
                   </div>
