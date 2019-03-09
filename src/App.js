@@ -18,7 +18,16 @@ class BooksApp extends React.Component {
   }
 
   componentDidMount() {
-    this.updateShelfs()
+    BooksAPI.getAll()
+      .then((books) => {
+        this.setState({ books: books })
+        this.updateShelfs(books)
+      })
+  }
+
+  componentDidUpdate() {
+    BooksAPI.getAll()
+      .then((books) => (this.updateShelfs(books)))
   }
 
   updateBookShelf = (id, shelf) => {
@@ -26,32 +35,26 @@ class BooksApp extends React.Component {
       .then((book) => {
         book.shelf = shelf
         BooksAPI.update(book, shelf)
-        .then((book) => this.updateShelfs())
+        this.updateShelfs(this.state.books)
       })
   }
 
 
-  updateShelfs = () => {
-    BooksAPI.getAll()
-      .then((books) => {
-        let currentlyReadingBooks = books.filter(book => book.shelf === 'currentlyReading')
-        this.setState({
-          currentlyReading: currentlyReadingBooks
-        })
+  updateShelfs = (books) => {
+    let currentlyReadingBooks = books.filter(book => book.shelf === 'currentlyReading')
+    this.setState({
+      currentlyReading: currentlyReadingBooks
+    })
 
-        let wantToReadBooks = books.filter(book => book.shelf === 'wantToRead')
-        this.setState({
-          wantToRead: wantToReadBooks
-        })
+    let wantToReadBooks = books.filter(book => book.shelf === 'wantToRead')
+    this.setState({
+      wantToRead: wantToReadBooks
+    })
 
-        let readBooks = books.filter(book => book.shelf === 'read')
-        this.setState({
-          read: readBooks
-        })
-        this.setState(() => ({
-          books
-        }))
-      })
+    let readBooks = books.filter(book => book.shelf === 'read')
+    this.setState({
+      read: readBooks
+    })
   }
 
   render() {
