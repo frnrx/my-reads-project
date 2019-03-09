@@ -142,6 +142,8 @@ button:active {
 .book-title,
 .book-authors {
   font-size: 0.8em;
+  display: flex;
+  flex-direction: column;
 }
 
 .book-title {

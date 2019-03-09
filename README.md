@@ -5,6 +5,15 @@ This is the my submission for the final assessment project for Udacity's React F
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
+  To start the project:
+
+  run:
+    npm install 
+  
+  and then run:
+    npm start
+
+## Available Scripts
 
 In the project directory, you can run:
 
